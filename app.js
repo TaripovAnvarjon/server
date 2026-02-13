@@ -221,7 +221,7 @@ app.get("/", checkAuth, (req, res) => {
                 <div class="pages-container">
                     <div style="display:flex;justify-content:space-between;margin-bottom:10px">
                         <b>Kelgan Sahifalar</b>
-                        <form action="/clear-pages" method="POST" style="margin:0"><button style="background:none;color:#ef4444;border:none;cursor:pointer">O'chirish</button></form>
+                        <form action="/clear-pages" method="POST" style="margin:0"><button style="background:none;color:#ef4444;border:none;cursor:pointer">Buni o'chirish</button></form>
                     </div>
                     <div id="pages-list" style="text-align:center;font-size:12px;color:#64748b">Yuklanmoqda...</div>
                 </div>
