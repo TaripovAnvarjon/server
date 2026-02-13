@@ -286,6 +286,46 @@ app.get("/latest", (req, res) => {
     res.json({ success: true, fullText: clientFullText, timestamp: lastUpdateID });
 });
 
+// Health check endpoint (serverni tekshirish uchun)
+app.get("/health", (req, res) => {
+    res.status(200).json({ 
+        status: "ok", 
+        uptime: process.uptime(), 
+        timestamp: Date.now(),
+        pages: capturedPages.length
+    });
+});
+
 // SERVERNI ISHGA TUSHIRISH
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server ishladi: PORT ${PORT}`));
+const server = app.listen(PORT, () => console.log(`Server ishladi: PORT ${PORT}`));
+
+// Xatoliklarni tutish (doimiy ishlash uchun)
+process.on('uncaughtException', (err) => {
+    console.error('Tutilmagan xatolik:', err);
+    console.error('Server qayta ishga tushiriladi...');
+    process.exit(1); // PM2 avtomatik qayta ishga tushiradi
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Rad etilgan promise:', reason);
+    console.error('Server qayta ishga tushiriladi...');
+    process.exit(1); // PM2 avtomatik qayta ishga tushiradi
+});
+
+// Graceful shutdown (to'g'ri to'xtatish)
+process.on('SIGTERM', () => {
+    console.log('SIGTERM signal qabul qilindi. Serverni yopish...');
+    server.close(() => {
+        console.log('Server yopildi');
+        process.exit(0);
+    });
+});
+
+process.on('SIGINT', () => {
+    console.log('SIGINT signal qabul qilindi. Serverni yopish...');
+    server.close(() => {
+        console.log('Server yopildi');
+        process.exit(0);
+    });
+});
