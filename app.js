@@ -303,12 +303,14 @@ const server = app.listen(PORT, () => console.log(`Server ishladi: PORT ${PORT}`
 // Xatoliklarni tutish (doimiy ishlash uchun)
 process.on('uncaughtException', (err) => {
     console.error('Tutilmagan xatolik:', err);
-    // Serverni to'xtatmaslik, faqat xatolikni yozish
+    console.error('Server qayta ishga tushiriladi...');
+    process.exit(1); // PM2 avtomatik qayta ishga tushiradi
 });
 
 process.on('unhandledRejection', (reason, promise) => {
     console.error('Rad etilgan promise:', reason);
-    // Serverni to'xtatmaslik, faqat xatolikni yozish
+    console.error('Server qayta ishga tushiriladi...');
+    process.exit(1); // PM2 avtomatik qayta ishga tushiradi
 });
 
 // Graceful shutdown (to'g'ri to'xtatish)

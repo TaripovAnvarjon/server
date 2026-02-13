@@ -109,7 +109,7 @@ npm start
 
 **Start Command (PM2 bilan):**
 ```bash
-npm install && npm run pm2:start && pm2 logs
+npm install && npm run pm2:start
 ```
 
 5. **Environment Variables qo'shing:**
